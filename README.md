@@ -22,7 +22,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-## Creating tasks
+## Basics
 
 Create a `tasks.py` file in the Django app you'd like to have tasks in. These tasks will automatically
 become available thanks to autodiscovery.
@@ -37,7 +37,8 @@ def say_hello(name):
 
 ### Calling tasks
 
-Tasks become simple Python callables.
+Tasks become simple Python callables. Calling them inserts that task to your Django database and
+waits for a worker to pick it up.
 
 ```python
 say_hello('Foo')  # Sent to background automatically
@@ -45,7 +46,8 @@ say_hello('Foo')  # Sent to background automatically
 
 ### Running the workers
 
-Now boot-up your workers to crunch some data.
+Now boot-up your workers to crunch some data. Workers poll the Database for new tasks they should
+work on.
 
 ```
 python manage.py runworkers
@@ -64,15 +66,15 @@ Tasks specified with a schedule in minutes will repeat.
 ```python
 from workers import task
 
-@task(schedule=1):
+@task(schedule=1)
 def do_something():
     print('I run every minute')
 
-@task(schedule=5):
+@task(schedule=5)
 def do_something_later():
     print('I run every 5 minutes')
 
-@task(schedule=60*8):
+@task(schedule=60*8)
 def do_something_even_later():
     print('I run every 8 hours')
 ```
@@ -96,7 +98,7 @@ def trial_ending():
 trial_ending(schedule=trial_end_date)
 ```
 
-### Settings
+## Settings
 
 You can optionally override these settings in your Django `settings.py` file:
 
