@@ -1,7 +1,12 @@
+import logging
+
 from importlib import import_module
 
 
-def autodiscover(log):
+log = logging.getLogger(__name__)
+
+
+def autodiscover():
     """
     Autodiscover `tasks.py` files in much the same way Django admin discovers `admin.py`
 
@@ -19,4 +24,5 @@ def autodiscover(log):
         except ImportError:
             continue
 
+        log.debug('discovered: {0}.tasks'.format(app))
         import_module("%s.tasks" % app)

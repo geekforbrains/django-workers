@@ -1,8 +1,8 @@
 from django.conf import settings
 
 
-# When True, all tasks to run inline instead of async
-DEBUG = getattr(settings, 'WORKERS_DEBUG', False)
-
 # How long (in seconds) should the worker sleep between task lookups?
 SLEEP = getattr(settings, 'WORKERS_SLEEP', 5)
+
+# How many logs to keep in admin
+PURGE = getattr(settings, 'WORKERS_PURGE', 1000)

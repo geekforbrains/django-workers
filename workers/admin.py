@@ -5,4 +5,4 @@ from .models import Task
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('handler', 'created_at', 'completed_at')
+    list_display = ('handler', 'run_at', 'schedule', 'status')

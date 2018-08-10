@@ -56,33 +56,33 @@ python manage.py runworkers
 
 ## Scheduled tasks
 
-Sometimes you want to run a specific task every X minutes or at a later date. Thats what scheduled 
+Sometimes you want to run a specific task every X seconds or at a later date. Thats what scheduled 
 tasks are for.
 
 ### Repeating scheduled tasks
 
-Tasks specified with a schedule in minutes will repeat.
+Tasks specified with a schedule in seconds will repeat.
 
 ```python
 from workers import task
 
-@task(schedule=1)
+@task(schedule=10)
 def do_something():
-    print('I run every minute')
+    print('I run every 10 seconds')
 
-@task(schedule=5)
+@task(schedule=60*5)
 def do_something_later():
     print('I run every 5 minutes')
 
-@task(schedule=60*8)
+@task(schedule=60*60*8)
 def do_something_even_later():
     print('I run every 8 hours')
 ```
 
 ### Date scheduled tasks
 
-Tasks can be scheduled to *run once* at a later date by passing a `datetime` object when the task
-is called.
+Tasks can be scheduled to *run once* at a later date by passing a `_schedule=<datetime>` argument 
+when the task is called.
 
 ```python
 from datetime import datetime, timedelta
@@ -95,14 +95,16 @@ def trial_ending():
     send_email('Your trial is ending!')
 
 # Specifying the `schedule` argument will tell the worker when this task should run
-trial_ending(schedule=trial_end_date)
+trial_ending(_schedule=trial_end_date)
 ```
 
 ## Settings
 
 You can optionally override these settings in your Django `settings.py` file:
 
-- `WORKERS_DEBUG` (default False) - When True, tasks are run inline instead of async
 - `WORKERS_SLEEP` (default 5) - Wait in seconds before checking for tasks, if none were found
+- `WORKERS_PURGE` (default 1,000) - How many recent task logs to keep in the admin
+
+#### TODO (not working)
 - `WORKERS_TIMEOUT` (default 30) - Seconds a task can run before its killed
 - `WORKERS_RETRY` (default 3) - Number of retries before giving up
