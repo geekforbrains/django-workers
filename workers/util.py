@@ -19,10 +19,14 @@ def autodiscover():
             app_path = import_module(app).__path__
         except (AttributeError, ImportError):
             continue
+
         try:
             imp.find_module('tasks', app_path)
         except ImportError:
             continue
+        except Exception as e:
+            log.error('failed to autodiscover {0}: does it have an __init__.py file?'.format(app))
+            continue
 
-        log.debug('discovered: {0}.tasks'.format(app))
+        log.debug('discovered {0}.tasks'.format(app))
         import_module("%s.tasks" % app)

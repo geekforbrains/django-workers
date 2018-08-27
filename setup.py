@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="django-workers",
-    version="0.1.0",
+    version="0.1.1",
     author="Gavin Vickery",
     author_email="gavin@geekforbrains.com",
     description="Simple background tasks for Django",
