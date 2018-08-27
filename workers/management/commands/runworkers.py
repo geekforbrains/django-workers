@@ -40,6 +40,7 @@ class Command(BaseCommand):
                     except Exception as e:
                         task.status = Task.FAILED
                         task.error = str(e)
+                        log.exception(e)
 
                     task.completed_at = timezone.now()
                     task.save()
