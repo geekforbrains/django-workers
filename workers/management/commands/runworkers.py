@@ -1,5 +1,6 @@
 import json
 import logging
+import signal
 import time
 
 from django.core.management.base import BaseCommand
@@ -17,6 +18,15 @@ log = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = 'Start workers and wait for tasks to process'
 
+    def __init__(self, *args, **kwargs):
+        self.__SIGINT = False
+        signal.signal(signal.SIGINT, self.__handler)
+        super().__init__(*args, **kwargs)
+
+    def __handler(self, sig, frame):
+        log.info('received SIGINT, shutting down workers')
+        self.__SIGINT = True
+
     def handle(self, *args, **options):
         # Find any INSTALLED_APPS with a `tasks.py` file and import it
         autodiscover()
@@ -24,7 +34,7 @@ class Command(BaseCommand):
         for t in scheduled:
             Task.create_scheduled_task(t['handler'], t['schedule'])
 
-        while True:
+        while not self.__SIGINT:
             log.debug('worker: waiting for tasks...')
             tasks = Task.objects.filter(run_at__lte=timezone.now(), completed_at=None)
 
