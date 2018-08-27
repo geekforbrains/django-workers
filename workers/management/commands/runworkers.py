@@ -24,7 +24,7 @@ class Command(BaseCommand):
         super().__init__(*args, **kwargs)
 
     def __handler(self, sig, frame):
-        log.info('received SIGINT, shutting down workers')
+        log.info('received SIGINT, shutting down workers...')
         self.__SIGINT = True
 
     def handle(self, *args, **options):
@@ -34,8 +34,8 @@ class Command(BaseCommand):
         for t in scheduled:
             Task.create_scheduled_task(t['handler'], t['schedule'])
 
+        log.debug('worker: ready for tasks...')
         while not self.__SIGINT:
-            log.debug('worker: waiting for tasks...')
             tasks = Task.objects.filter(run_at__lte=timezone.now(), completed_at=None)
 
             if tasks:
