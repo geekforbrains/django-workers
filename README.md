@@ -108,3 +108,4 @@ You can optionally override these settings in your Django `settings.py` file:
 #### TODO (not working)
 - `WORKERS_TIMEOUT` (default 30) - Seconds a task can run before its killed
 - `WORKERS_RETRY` (default 3) - Number of retries before giving up
+- `WORKERS_CONCURRENCY` (default 1) - Number of worker processes to run
