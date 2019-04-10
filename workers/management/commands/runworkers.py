@@ -58,9 +58,17 @@ class Command(BaseCommand):
                     if task.schedule:
                         Task.create_scheduled_task(task.handler, task.schedule)
 
-                purge = Task.objects.order_by('-completed_at').order_by('-run_at')[:PURGE]
-                if purge:
-                    log.debug('purging old tasks')
-                    Task.objects.exclude(pk__in=purge).delete()
+                # if PURGE is 1000, we will keep the latest 1000 completed tasks
+                keep = (
+                    Task.objects
+                    .filter(status=Task.COMPLETED)
+                    .order_by('-completed_at')
+                    .order_by('-run_at')[:PURGE]
+                )
+
+                if keep:
+                    # If there are more than PURGE (ex. 1000) completed tasks, delete
+                    # any that are not in keep
+                    Task.objects.exclude(pk__in=keep).filter(status=Task.COMPLETED).delete()
             else:
                 time.sleep(SLEEP)
