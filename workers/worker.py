@@ -29,3 +29,10 @@ def task(schedule=None):
             return task.pk
         return wrapper
     return task_handler
+
+
+def get_status(task_id):
+    try:
+        return Task.objects.get(pk=task_id).status
+    except Task.DoesNotExist:
+        return None
