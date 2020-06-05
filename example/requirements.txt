@@ -1,4 +1,4 @@
-Django==2.1
+Django==2.2.13
 -e git+git@github.com:geekforbrains/django-workers@e2a705f7d29ec8015dcda07d561cb7d2ab119e02#egg=django_workers
 psycopg2-binary==2.7.5
 pytz==2018.5
