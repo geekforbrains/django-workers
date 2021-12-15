@@ -3,6 +3,7 @@
 A simple background task worker that uses your Django database and admin for management. This
 project is meant for small to medium scale uses. If you need something more, check out Celery.
 
+
 ## Install
 
 Download the package
@@ -52,9 +53,10 @@ work on.
 python manage.py runworkers
 ```
 
+
 ## Scheduled tasks
 
-Sometimes you want to run a specific task every X seconds or at a later date. Thats what scheduled
+Sometimes you want to run a specific task every X seconds or at a later date. Thats what scheduled 
 tasks are for.
 
 ### Repeating scheduled tasks
@@ -79,7 +81,7 @@ def do_something_even_later():
 
 ### Date scheduled tasks
 
-Tasks can be scheduled to _run once_ at a later date by passing a `_schedule=<datetime>` argument
+Tasks can be scheduled to *run once* at a later date by passing a `_schedule=<datetime>` argument 
 when the task is called.
 
 ```python
@@ -105,7 +107,6 @@ You can optionally override these settings in your Django `settings.py` file:
 - `WORKERS_IGNORE_APPS` (default []) - Apps to ignore when searching settings.INSTALLED_APPS
 
 #### TODO (not working)
-
 - `WORKERS_TIMEOUT` (default 30) - Seconds a task can run before its killed
 - `WORKERS_RETRY` (default 3) - Number of retries before giving up
 - `WORKERS_CONCURRENCY` (default 1) - Number of worker processes to run
