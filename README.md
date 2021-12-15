@@ -104,6 +104,7 @@ You can optionally override these settings in your Django `settings.py` file:
 
 - `WORKERS_SLEEP` (default 5) - Wait in seconds before checking for tasks, if none were found
 - `WORKERS_PURGE` (default 1,000) - How many recent task logs to keep in the admin
+- `WORKERS_IGNORE_APPS` (default []) - Apps to ignore when searching settings.INSTALLED_APPS
 
 #### TODO (not working)
 - `WORKERS_TIMEOUT` (default 30) - Seconds a task can run before its killed

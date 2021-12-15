@@ -13,8 +13,14 @@ def autodiscover():
     """
     import imp
     from django.conf import settings
+    from .settings import IGNORE_APPS
 
     for app in settings.INSTALLED_APPS:
+
+        # Skip apps specified in settings
+        if app in IGNORE_APPS:
+            continue
+
         try:
             app_path = import_module(app).__path__
         except (AttributeError, ImportError):
