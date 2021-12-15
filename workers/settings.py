@@ -8,4 +8,4 @@ SLEEP = getattr(settings, 'WORKERS_SLEEP', 5)
 PURGE = getattr(settings, 'WORKERS_PURGE', 1000)
 
 # Which apps should we skip when looking for tasks.py?
-IGNORE_APPS = getattr(settings, 'WORKERS_IGNORE_APPS', '')
+IGNORE_APPS = getattr(settings, 'WORKERS_IGNORE_APPS', [])
