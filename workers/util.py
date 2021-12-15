@@ -2,7 +2,6 @@ import logging
 
 from importlib import import_module
 
-
 log = logging.getLogger(__name__)
 
 
@@ -13,8 +12,14 @@ def autodiscover():
     """
     import imp
     from django.conf import settings
+    from .settings import IGNORE_APPS
 
     for app in settings.INSTALLED_APPS:
+
+        # Skip apps specified in settings
+        if app in IGNORE_APPS:
+            continue
+
         try:
             app_path = import_module(app).__path__
         except (AttributeError, ImportError):
@@ -25,7 +30,8 @@ def autodiscover():
         except ImportError:
             continue
         except Exception as e:
-            log.error('failed to autodiscover {0}: does it have an __init__.py file?'.format(app))
+            log.error(
+                'failed to autodiscover {0}: does it have an __init__.py file?'.format(app))
             continue
 
         log.debug('discovered {0}.tasks'.format(app))
