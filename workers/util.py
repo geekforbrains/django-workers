@@ -16,6 +16,7 @@ def autodiscover():
 
     for app in settings.INSTALLED_APPS:
         try:
+            app = app.split(".")[0]
             app_path = import_module(app).__path__
         except (AttributeError, ImportError):
             continue
